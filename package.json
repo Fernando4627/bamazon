@@ -1,0 +1,22 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "SQL Node interaction like amazon",
+  "main": "bamazon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fernando4627/bamazon.git"
+  },
+  "author": "Fernando4627",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fernando4627/bamazon/issues"
+  },
+  "homepage": "https://github.com/Fernando4627/bamazon#readme",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}
