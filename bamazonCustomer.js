@@ -23,7 +23,7 @@ DB.query(readQuery, function (err, result, fields) {
     }
     for (let i = 0; i < result.length; i++) {
         let resloop = result[i];
-        console.log('\nItem: ' + i + '\nItem ID: ' + resloop.item_id + '\nProduct Name: ' + resloop.product_name + '\nDepartment: ' + resloop.department_name + '\nPrice: ' + resloop.price + '\nStock: ' + resloop.stock_quantity);
+        console.log('\nItem Number: ' + i + '\nItem ID: ' + resloop.item_id + '\nProduct Name: ' + resloop.product_name + '\nDepartment: ' + resloop.department_name + '\nPrice: ' + resloop.price + '\nStock: ' + resloop.stock_quantity);
     }
     question.prompt([{
         name: 'item_id',
