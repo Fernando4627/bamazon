@@ -21,12 +21,13 @@ DB.query(readQuery, function (err, result, fields) {
         console.log(err);
         return;
     }
-    for (let i = 0; i < result.length; i++) {
-        let resloop = result[i];
-        let interator = result.entries();
-        for(let e of interator){
-        console.log('\nItem : ' + e[0] +'\nItem ID: ' + resloop.item_id + '\nProduct Name: ' + resloop.product_name + '\nDepartment: ' + resloop.department_name + '\nPrice: ' + resloop.price + '\nStock: ' + resloop.stock_quantity);
-    }}
+    let interator = result.entries();
+    for (let e of interator) {
+        for (let i = 0; i < result.length; i++) {
+            let resloop = result[i];
+            console.log('\nItem : ' + e[0] + '\nItem ID: ' + resloop.item_id + '\nProduct Name: ' + resloop.product_name + '\nDepartment: ' + resloop.department_name + '\nPrice: ' + resloop.price + '\nStock: ' + resloop.stock_quantity);
+        }
+    }
     question.prompt([{
         name: 'item_id',
         message: 'Input the number of the item you would like to purchace'
@@ -48,7 +49,7 @@ DB.query(readQuery, function (err, result, fields) {
         let sum = result[res.item_id].price * res.qty;
 
         let change = 'UPDATE products SET stock_quantity = ' + (result[res.item_id].stock_quantity - res.qty) + ' WHERE item_id = ' + result[res.item_id].item_id;
-        
+
         DB.query(change, (err, result, fields) => {
             if (err) {
                 console.log(result[res.item_id].stock_quantity);
