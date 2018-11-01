@@ -2,7 +2,7 @@ require('dotenv').config();
 let mysql = require('mysql');
 let question = require('inquirer');
 
-let DB = mysql.createDB({
+let DB = mysql.createConnection({
     host: process.env.host,
     user: process.env.user,
     password: process.env.password,
@@ -22,34 +22,38 @@ DB.query(readQuery, function (err, result, fields) {
         return;
     }
     for (let i = 0; i < result.length; i++) {
-        const res = result[i];
-        console.log('\nItem ID: ' + res.item_id + '\nProduct Name: ' + res.product_name + '\nDepartment: ' + res.department_name + '\nPrice: ' + res.price + '\nStock: ' + res.stock_quantity);
-    }
+        let resloop = result[i];
+        let interator = result.entries();
+        for(let e of interator){
+        console.log('\nItem : ' + e[0] +'\nItem ID: ' + resloop.item_id + '\nProduct Name: ' + resloop.product_name + '\nDepartment: ' + resloop.department_name + '\nPrice: ' + resloop.price + '\nStock: ' + resloop.stock_quantity);
+    }}
     question.prompt([{
-        name: 'id',
-        message: 'Input the ID of the item you would like to  purchace'
+        name: 'item_id',
+        message: 'Input the number of the item you would like to purchace'
     },
     {
         name: 'qty',
         message: 'How many would you like?'
     }]).then(res => {
-        if (isNaN(res.id) || isNaN(res.qty)) {
+        if (isNaN(res.item_id) || isNaN(res.qty)) {
             console.log('Invalid ID or Quantity');
             DB.end();
             return;
         }
-        if (result[(res.id - 1)].stock_quantity < res.qty) {
+        if (result[res.item_id].stock_quantity < res.qty) {
             console.log('Insufficent Supply ya fool');
             DB.end();
             return;
         }
-        let sum = result[(res.id - 1)].price * res.qty;
+        let sum = result[res.item_id].price * res.qty;
 
-        let query = 'UPDATE products SET stock_quantity = ' + (result[(res.id - 1)].stock_quantity - res.qty) + 'WHERE item_id = ' + res.id;
-
-        DB.query(query, (err, result, fields) => {
+        let change = 'UPDATE products SET stock_quantity = ' + (result[res.item_id].stock_quantity - res.qty) + ' WHERE item_id = ' + result[res.item_id].item_id;
+        
+        DB.query(change, (err, result, fields) => {
             if (err) {
+                console.log(result[res.item_id].stock_quantity);
                 console.log(err);
+                console.log('QUERY STRING: ' + change);
             }
             console.log('Order total: $' + sum.toFixed(2));
             DB.end(err => {
