@@ -8,4 +8,3 @@ price integer not null,
 stock_quantity integer not null,
 primary key (item_id)
 );
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Fernja46';
